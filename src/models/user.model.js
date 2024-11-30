@@ -4,7 +4,9 @@ import bcrypt from 'bcryptjs';
 const UserSchema = new mongoose.Schema({
   username: {
     type: String,
-    required: true,
+    required: function() {
+      return !this.google?.id;
+    },
     unique: true,
     trim: true
   },
@@ -17,7 +19,9 @@ const UserSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
+    required: function() {
+      return !this.google?.id;
+    },
     select: false
   },
   role: {
@@ -53,6 +57,12 @@ const UserSchema = new mongoose.Schema({
     count: { type: Number, default: 0 },
     lastChange: Date,
     lastReset: Date
+  },
+  google: {
+    id: String,
+    email: String,
+    name: String,
+    picture: String
   }
 }, { timestamps: true });
 
