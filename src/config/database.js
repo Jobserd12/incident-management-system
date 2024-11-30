@@ -1,20 +1,17 @@
-const mongoose = require('mongoose');
-require('dotenv').config();
+import mongoose from 'mongoose';
+import config from './config.js';
 
 const connectDB = async () => {
   try {
-    console.log('Conexión a base de datos');
-    return;
-
-    await mongoose.connect(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log('Conexión a MongoDB establecida');
+    const conn = await mongoose.connect(config.mongodb.uri);
+    console.log(`MongoDB conectado: ${conn.connection.host}`);
+    console.log(`Base de datos actual: ${conn.connection.name}`);
+    console.log(`Puerto: ${conn.connection.port}`);
+    console.log(`Estado de la conexión: ${conn.connection.readyState === 1 ? 'Conectado' : 'Desconectado'}`);
   } catch (error) {
-    console.error('Error conectando a MongoDB:', error);
+    console.error('Error al conectar MongoDB:', error);
     process.exit(1);
   }
 };
 
-module.exports = connectDB;
+export default connectDB;
