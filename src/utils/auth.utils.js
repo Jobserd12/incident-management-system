@@ -41,3 +41,17 @@ export const generateResetPasswordToken = (email) => {
     { expiresIn: '1h' }
   );
 }; 
+
+
+export const generateGoogleAuthToken = (user) => {
+  return jwt.sign(
+    { 
+      sub: user._id,
+      email: user.email,
+      username: user.username,
+      role: user.role 
+    },
+    config.jwt.secret,
+    { expiresIn: config.jwt.expiration }
+  );
+};

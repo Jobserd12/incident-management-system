@@ -1,6 +1,7 @@
 import authService from '../services/auth.service.js';
 import config from '../config/config.js';
 import { AUTH_MESSAGES } from '../api/constants/messages.js';
+import { generateGoogleAuthToken } from '../utils/auth.utils.js';
 
 export class AuthController {
   constructor(authService) {
@@ -171,6 +172,30 @@ export class AuthController {
     }
   }
 
+  googleCallback = async (req, res, next) => {
+    try {
+      const token = generateGoogleAuthToken(req.user);
+      
+      return res.status(200).json({
+        status: 'success',
+        message: AUTH_MESSAGES.GOOGLE.SUCCESS,
+        data: {
+          token,
+          user: {
+            id: req.user._id,
+            email: req.user.email,
+            username: req.user.username,
+            name: req.user.name,
+            role: req.user.role,
+            google: req.user.google
+          }
+        }
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
 }
 
 const authController = new AuthController(authService);
@@ -184,3 +209,4 @@ export const resetPassword = authController.resetPassword.bind(authController);
 export const changePassword = authController.changePassword.bind(authController); 
 export const changeEmail = authController.changeEmail.bind(authController);
 export const verifyNewEmail = authController.verifyNewEmail.bind(authController); 
+export const googleCallback = authController.googleCallback.bind(authController);
