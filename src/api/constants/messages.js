@@ -109,4 +109,112 @@ export const STATUS_MESSAGES = {
   PROCESSING: 'En proceso',
   COMPLETED: 'Completado',
   FAILED: 'Fallido'
+};
+
+export const INCIDENT_MESSAGES = {
+  CREATE: {
+    SUCCESS: 'Incidencia creada exitosamente',
+    VALIDATION_ERROR: 'Error en los datos de la incidencia',
+    UNAUTHORIZED: 'No autorizado para crear incidencias',
+    SIMILAR_EXISTS: 'Ya existe una incidencia similar pendiente',
+    LIMIT_REACHED: 'Has alcanzado el límite de incidencias activas'
+  },
+
+  FETCH: {
+    SUCCESS: 'Incidentes obtenidos exitosamente',
+    NOT_FOUND: 'Incidencia no encontrada'
+  },
+  
+  UPDATE: {
+    SUCCESS: 'Incidencia actualizada exitosamente',
+    NOT_FOUND: 'Incidencia no encontrada',
+    INVALID_STATUS: 'Estado de incidencia no válido',
+    UNAUTHORIZED: 'No autorizado para actualizar esta incidencia'
+  },
+  
+  DELETE: {
+    SUCCESS: 'Incidencia eliminada exitosamente',
+    NOT_FOUND: 'Incidencia no encontrada',
+    UNAUTHORIZED: 'No autorizado para eliminar esta incidencia'
+  },
+  
+  ASSIGNMENT: {
+    SUCCESS: 'Incidencia asignada exitosamente',
+    ALREADY_ASSIGNED: 'La incidencia ya está asignada',
+    INVALID_TECHNICIAN: 'Técnico no válido o no disponible',
+    TECHNICIAN_NOT_FOUND: 'Técnico no encontrado',
+    SAME_TECHNICIAN: 'La incidencia ya está asignada al mismo técnico'
+  },
+  
+  COMMENTS: {
+    ADD_SUCCESS: 'Comentario agregado exitosamente',
+    UPDATE_SUCCESS: 'Comentario actualizado exitosamente',
+    DELETE_SUCCESS: 'Comentario eliminado exitosamente',
+    NOT_FOUND: 'Comentario no encontrado',
+    UNAUTHORIZED: 'No autorizado para gestionar este comentario',
+    UNAUTHORIZED_DELETE: 'No tienes permisos para eliminar este comentario',
+    UNAUTHORIZED_UPDATE: 'No tienes permisos para actualizar este comentario',
+    ALREADY_DELETED: 'El comentario ya ha sido eliminado'
+  },
+  
+  TIME_TRACKING: {
+    STARTED: 'Incidencia iniciada exitosamente',
+    PAUSED: 'Incidencia pausada exitosamente',
+    NOT_ASSIGNED: 'No tienes permisos para iniciar esta incidencia',
+    ALREADY_STARTED: 'La incidencia ya está en progreso',
+    NOT_STARTED: 'La incidencia no ha sido iniciada'
+  },
+
+  ATTACHMENTS: {
+    UPLOAD_SUCCESS: 'Archivo adjunto subido exitosamente',
+    DELETE_SUCCESS: 'Archivo adjunto eliminado exitosamente',
+    NOT_FOUND: 'Archivo adjunto no encontrado',
+    UNAUTHORIZED_DELETE: 'No tienes permisos para eliminar este archivo adjunto',
+    UNAUTHORIZED_UPDATE: 'No tienes permisos para actualizar este archivo adjunto',
+    NO_FILE: 'No se ha proporcionado un archivo para subir',
+    INVALID_FILE: 'Tipo de archivo no permitido',
+    FILE_TOO_LARGE: 'El archivo excede el tamaño máximo permitido',
+    NO_FILES: 'No se han proporcionado archivos para subir',
+    DELETE_ERROR: 'Error al eliminar el archivo adjunto',
+    UPDATE_SUCCESS: 'Archivo adjunto actualizado exitosamente',
+  },
+  
+  STATUS: {
+    UPDATED: 'Estado de la incidencia actualizado exitosamente',
+    INVALID_TRANSITION: 'Transición de estado no válida',
+    UNRESOLVED_DEPENDENCIES: 'No se puede resolver/cerrar esta incidencia porque tiene dependencias sin resolver',
+    PROPAGATION_SUCCESS: 'Estado propagado a incidencias dependientes',
+    PROPAGATION_PARTIAL: 'Estado actualizado, pero algunas dependencias no pudieron ser actualizadas'
+  },
+  
+  VALIDATION: {
+    INVALID_PRIORITY: 'Prioridad no válida',
+    INVALID_CATEGORY: 'Categoría no válida',
+    INVALID_STATUS: 'Estado no válido',
+    REQUIRED_FIELDS: 'Faltan campos requeridos',
+    SIMILAR_TITLE: 'Ya existe una incidencia con un título similar',
+    ACTIVE_LIMIT: 'Límite de incidencias activas alcanzado'
+  },
+  
+  LIMITS: {
+    MAX_ACTIVE_INCIDENTS: 5,
+    MAX_ACTIVE_MESSAGE: 'No puedes tener más de 5 incidencias activas simultáneamente'
+  },
+  
+  RELATIONSHIPS: {
+    LINK_SUCCESS: 'Incidencias vinculadas exitosamente',
+    PARENT_NOT_FOUND: 'La incidencia padre no existe',
+    CHILD_NOT_FOUND: 'La incidencia hijo no existe',
+    SELF_REFERENCE: 'No es posible vincular una incidencia consigo misma',
+    ALREADY_HAS_PARENT: 'Esta incidencia ya está vinculada a otro caso',
+    CLOSED_PARENT: 'No es posible vincular incidencias a casos que ya están resueltos o cerrados',
+    INVERSE_RELATION: 'No es posible vincular estas incidencias porque ya existe una relación inversa entre ellas',
+    UNLINK_SUCCESS: 'Incidencias desvinculadas exitosamente',
+    NOT_RELATED: 'Las incidencias no están relacionadas entre sí',
+    UNAUTHORIZED: 'No tienes permisos para gestionar las relaciones de esta incidencia. Solo el creador o el técnico asignado pueden realizar esta acción',
+    FETCH_SUCCESS: 'Relaciones de la incidencia obtenidas exitosamente',
+    INCIDENT_NOT_FOUND: 'No se encontró la incidencia especificada',
+    UPDATE_SUCCESS: 'Tipo de relación actualizado exitosamente',
+    INVALID_TYPE: 'El tipo de relación debe ser "dependencia" o "relación"'
+  }
 }; 
