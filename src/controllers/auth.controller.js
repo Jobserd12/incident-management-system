@@ -195,7 +195,6 @@ export class AuthController {
       next(error);
     }
   }
-
 }
 
 const authController = new AuthController(authService);
