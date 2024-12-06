@@ -2,17 +2,25 @@ import { ERROR_MESSAGES } from '../api/constants/messages.js';
 import logger from '../logs/logger.js';
 import Boom from '@hapi/boom';
 
-export const validateSchema = (schema, type = 'body') => {
+export const validateSchema = (schema) => {
   return (req, res, next) => {
     try {
-      const dataToValidate = type === 'query' ? req.query : req.body;
-      const { error } = schema.validate(dataToValidate, { abortEarly: false });
+      const dataToValidate = {
+        body: req.body,
+        query: req.query,
+        params: req.params
+      };
+
+      const { error } = schema.validate(dataToValidate, { 
+        abortEarly: false,
+        allowUnknown: true
+      });
 
       if (error) {
         logger.error(ERROR_MESSAGES.REQUEST.INVALID_INPUT, {
           error: error.details[0].message,
           path: req.originalUrl,
-          [type]: dataToValidate
+          data: dataToValidate
         });
         
         const errorMessage = error.details
