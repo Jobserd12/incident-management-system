@@ -13,6 +13,14 @@ export const registerSchema = Joi.object({
         'string.empty': 'El username es requerido'
       }),
     email: commonValidations.email,
+    department: Joi.string()
+      .valid('it', 'desarrollo', 'infraestructura', 'soporte técnico', 'seguridad', 'recursos humanos', 'finanzas', 'marketing', 'ventas', 'administración', 'legal', 'operaciones')
+      .required()
+      .messages({
+        'any.required': 'El departamento es requerido',
+        'string.empty': 'El departamento es requerido',
+        'any.only': 'El departamento no es válido'
+      }),
     password: commonValidations.password,
     confirmPassword: Joi.string()
       .valid(Joi.ref('password'))

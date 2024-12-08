@@ -73,6 +73,21 @@ export const AUTH_MESSAGES = {
   }
 };
 
+export const USER_MESSAGES = {
+  PROFILE: {
+    GET: {
+      SUCCESS: 'Perfil obtenido exitosamente',
+      NOT_FOUND: 'Usuario no encontrado'
+    },
+    UPDATE: {
+      SUCCESS: 'Perfil actualizado exitosamente',
+      NOT_FOUND: 'Usuario no encontrado',
+      ADMIN_DEPARTMENT: 'No se puede modificar el departamento de un administrador',
+      INVALID_DATA: 'Datos de actualización inválidos'
+    }
+  }
+};
+
 export const ERROR_MESSAGES = {
   SERVER: {
     INTERNAL: 'Error interno del servidor',

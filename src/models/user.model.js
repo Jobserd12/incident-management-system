@@ -25,9 +25,16 @@ const UserSchema = new mongoose.Schema({
     select: false
   },
   role: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Role',
+    required: true
+  },
+  department: {
     type: String,
-    enum: ['user', 'support', 'admin'],
-    default: 'user'
+    enum: ['it', 'desarrollo', 'infraestructura', 'soporte tecnico', 'seguridad', 'administracion'],
+    required: function() {
+      return this.role !== 'admin';
+    }
   },
   isVerified: {
     type: Boolean,
@@ -63,7 +70,21 @@ const UserSchema = new mongoose.Schema({
     email: String,
     name: String,
     picture: String
-  }
+  },
+  customPermissions: [{
+    permission: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Permission'
+    },
+    grantedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    },
+    grantedAt: {
+      type: Date,
+      default: Date.now
+    }
+  }]
 }, { timestamps: true });
 
 UserSchema.pre('save', async function(next) {
@@ -115,6 +136,16 @@ UserSchema.methods.canChangeEmail = function() {
   }
 
   return this.emailChange?.count < 3;
+};
+
+UserSchema.methods.hasPermission = async function(requiredPermission) {
+  await this.populate('role.permissions customPermissions.permission');
+  
+  const rolePermissions = this.role.permissions.map(p => p.name);
+  const customPermissions = this.customPermissions.map(cp => cp.permission.name);
+  
+  return rolePermissions.includes(requiredPermission) || 
+         customPermissions.includes(requiredPermission);
 };
 
 const User = mongoose.model('User', UserSchema);

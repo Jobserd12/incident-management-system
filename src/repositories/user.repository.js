@@ -1,7 +1,6 @@
 import User from "../models/user.model.js";
 
 export class UserRepository {
-  // Métodos base de búsqueda
   async findByEmail(email) {
     return User.findOne({ email });
   }
@@ -225,6 +224,20 @@ export class UserRepository {
         }}
       ]
     });
+  }
+
+  async updateProfile(userId, updateData) {
+    return User.findByIdAndUpdate(
+      userId,
+      { $set: updateData },
+      { new: true, runValidators: true }
+    ).select('username email role department isVerified createdAt updatedAt');
+  }
+
+  async getProfile(userId) {
+    return User.findById(userId)
+      .select('username email role department isVerified createdAt updatedAt')
+      .lean();
   }
 }
 

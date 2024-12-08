@@ -7,7 +7,6 @@ export class IncidentRepository {
     this.model = Incident;
   }
 
-  // Métodos base CRUD
   async create(incidentData) {
     return this.model.create(incidentData);
   }

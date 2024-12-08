@@ -10,7 +10,7 @@ export class AuthService {
     this.userRepository = userRepository;
   }
 
-  async register({ email, password, username }) {
+  async register({ email, password, username, department }) {
     const existingEmail = await this.userRepository.findByEmail(email);
     const existingUsername = await this.userRepository.findByUsername(username);
     
@@ -28,6 +28,7 @@ export class AuthService {
       email,
       password,
       username,
+      department,
       isVerified: false,
       emailVerification: {
         token: verificationToken,
