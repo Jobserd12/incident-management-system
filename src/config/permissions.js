@@ -13,7 +13,8 @@ export const PERMISSION_ACTIONS = {
   DELETE: 'delete',
   MANAGE: 'manage',
   ASSIGN: 'assign',
-  RESOLVE: 'resolve'
+  RESOLVE: 'resolve',
+  START: 'start'
 };
 
 export const PERMISSIONS = {
@@ -24,8 +25,14 @@ export const PERMISSIONS = {
   INCIDENT_DELETE: { name: 'incident:delete', category: PERMISSION_CATEGORIES.INCIDENT, action: PERMISSION_ACTIONS.DELETE },
   INCIDENT_ASSIGN: { name: 'incident:assign', category: PERMISSION_CATEGORIES.INCIDENT, action: PERMISSION_ACTIONS.ASSIGN },
   INCIDENT_RESOLVE: { name: 'incident:resolve', category: PERMISSION_CATEGORIES.INCIDENT, action: PERMISSION_ACTIONS.RESOLVE },
+  INCIDENT_START: { name: 'incident:start', category: PERMISSION_CATEGORIES.INCIDENT, action: PERMISSION_ACTIONS.START },
   
-  // ... otros permisos
+  // Nuevos permisos ABAC
+  COMMENT_DELETE: { name: 'comment:delete', category: PERMISSION_CATEGORIES.COMMENT, action: PERMISSION_ACTIONS.DELETE },
+  COMMENT_UPDATE: { name: 'comment:update', category: PERMISSION_CATEGORIES.COMMENT, action: PERMISSION_ACTIONS.UPDATE },
+  ATTACHMENT_DELETE: { name: 'attachment:delete', category: PERMISSION_CATEGORIES.ATTACHMENT, action: PERMISSION_ACTIONS.DELETE },
+  ATTACHMENT_UPDATE: { name: 'attachment:update', category: PERMISSION_CATEGORIES.ATTACHMENT, action: PERMISSION_ACTIONS.UPDATE },
+  RELATIONSHIP_MANAGE: { name: 'relationship:manage', category: PERMISSION_CATEGORIES.INCIDENT, action: PERMISSION_ACTIONS.MANAGE }
 };
 
 export const ROLES = {
@@ -41,7 +48,12 @@ export const ROLES = {
       PERMISSIONS.INCIDENT_READ.name,
       PERMISSIONS.INCIDENT_UPDATE.name,
       PERMISSIONS.INCIDENT_RESOLVE.name,
-      // ... otros permisos
+      PERMISSIONS.INCIDENT_START.name,
+      PERMISSIONS.COMMENT_UPDATE.name,
+      PERMISSIONS.COMMENT_DELETE.name,
+      PERMISSIONS.ATTACHMENT_UPDATE.name,
+      PERMISSIONS.ATTACHMENT_DELETE.name,
+      PERMISSIONS.RELATIONSHIP_MANAGE.name
     ]
   },
   USUARIO: {

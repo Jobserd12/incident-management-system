@@ -138,14 +138,33 @@ UserSchema.methods.canChangeEmail = function() {
   return this.emailChange?.count < 3;
 };
 
-UserSchema.methods.hasPermission = async function(requiredPermission) {
-  await this.populate('role.permissions customPermissions.permission');
+UserSchema.methods.hasPermission = async function(requiredPermission, resource) {
+  await this.populate('customPermissions.permission');
   
-  const rolePermissions = this.role.permissions.map(p => p.name);
   const customPermissions = this.customPermissions.map(cp => cp.permission.name);
   
-  return rolePermissions.includes(requiredPermission) || 
-         customPermissions.includes(requiredPermission);
+  // Lógica ABAC
+  if (customPermissions.includes(requiredPermission)) {
+    return true;
+  }
+
+  // Verificación adicional para permisos específicos
+  switch (requiredPermission) {
+    case 'comment:delete':
+      return resource.createdBy.toString() === this._id.toString(); // Solo el creador puede eliminar
+    case 'comment:update':
+      return resource.createdBy.toString() === this._id.toString(); // Solo el creador puede actualizar
+    case 'incident:start':
+      return resource.assignedTo.toString() === this._id.toString(); // Solo el soporte asignado puede iniciar
+    case 'attachment:delete':
+      return resource.createdBy.toString() === this._id.toString(); // Solo el creador puede eliminar
+    case 'attachment:update':
+      return resource.createdBy.toString() === this._id.toString(); // Solo el creador puede actualizar
+    case 'relationship:manage':
+      return resource.createdBy.toString() === this._id.toString() || resource.assignedTo.toString() === this._id.toString(); // Creador o técnico asignado
+    default:
+      return false;
+  }
 };
 
 const User = mongoose.model('User', UserSchema);
