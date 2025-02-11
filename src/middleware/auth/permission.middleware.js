@@ -1,21 +1,42 @@
 import boom from '@hapi/boom';
 import { UserRepository } from '../../repositories/user.repository.js';
 import { IncidentRepository } from '../../repositories/incident.repository.js';
+import { PERMISSIONS } from '../../config/permissions.js';
 
-export const checkPermission = (requiredPermission) => async (req, res, next) => {
+const actionToPermissionMap = {
+  createIncident: PERMISSIONS.INCIDENT_CREATE.name,
+  readIncident: PERMISSIONS.INCIDENT_READ.name,
+  updateIncident: PERMISSIONS.INCIDENT_UPDATE.name,
+  deleteIncident: PERMISSIONS.INCIDENT_DELETE.name,
+  assignIncident: PERMISSIONS.INCIDENT_ASSIGN.name,
+  resolveIncident: PERMISSIONS.INCIDENT_RESOLVE.name,
+  commentUpdate: PERMISSIONS.COMMENT_UPDATE.name,
+  commentDelete: PERMISSIONS.COMMENT_DELETE.name,
+  attachmentUpdate: PERMISSIONS.ATTACHMENT_UPDATE.name,
+  attachmentDelete: PERMISSIONS.ATTACHMENT_DELETE.name,
+  relationshipManage: PERMISSIONS.RELATIONSHIP_MANAGE.name,
+};
+
+export const checkActionPermission = (action) => async (req, res, next) => {
   try {
     const user = await UserRepository.findById(req.user.id)
-      .populate({
-        path: 'role',
-        populate: { path: 'permissions' }
-      })
       .populate('customPermissions.permission');
 
-    const hasPermission = await user.hasPermission(requiredPermission);
+    const resourceId = req.params.incidentId; // Suponiendo que el ID del recurso está en los parámetros
+    const resource = await IncidentRepository.findById(resourceId);
+
+    if (!resource) {
+      throw boom.notFound('Incidente no encontrado');
+    }
+
+    const requiredPermission = actionToPermissionMap[action];
+    const hasPermission = await user.hasPermission(requiredPermission, resource);
+    
     if (!hasPermission) {
       throw boom.forbidden('No tienes permisos para realizar esta acción');
     }
 
+    req.resource = resource; // Guardamos el recurso en la solicitud para su uso posterior
     next();
   } catch (error) {
     next(error);
